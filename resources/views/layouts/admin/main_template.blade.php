@@ -4,29 +4,29 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
- 
+
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
- 
+
     <title>{{ config('app.name', 'Laravel') }}</title>
- 
+
   <!-- Font Awesome Icons -->
   <link href="{{ asset('adminlte/plugins/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
   <!-- Theme style -->
   <link href="{{ asset('adminlte/dist/css/adminlte.min.css') }}" rel="stylesheet">
- 
+
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
- 
+
     <!-- Header -->
     @include('layouts.admin.header')
- 
+
     <!-- Sidebar -->
     @include('layouts.admin.sidebar')
- 
+
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -46,19 +46,19 @@
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
- 
+
     <!-- Main content -->
     <div class="content">
       <div class="container-fluid">
             <!-- Your Page Content Here -->
-            @yield('content')        
-		  
+            @yield('content')
+
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
- 
+
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
@@ -68,15 +68,15 @@
     </div>
   </aside>
   <!-- /.control-sidebar -->
- 
+
     <!-- Footer -->
     @include('layouts.footer')
-	
+
 </div>
 <!-- ./wrapper -->
- 
+
 <!-- REQUIRED SCRIPTS -->
- 
+
 <!-- jQuery -->
 <script src="{{ asset('adminlte/plugins/jquery/jquery.min.js') }}"></script>
 <!-- Bootstrap 4 -->

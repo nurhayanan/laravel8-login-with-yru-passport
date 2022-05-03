@@ -1,11 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-
+{{--
   <header>
       @php
           $data = DB::table('announces')->get();
-          $datenow = date('Y-m-d');  //วันที่ปัจจุบัน
       @endphp
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
       <ol class="carousel-indicators">
@@ -16,39 +15,12 @@
       @foreach ($data as $item) @endforeach
       <div class="carousel-inner" role="listbox">
         <!-- Slide One - Set the background image for this slide in the line below -->
-        <div class="carousel-item active" style="background-image: url('/image/{{ $item->image }}' )" >
+        <div class="carousel-item active" style="background-image: url('/image/{{ $item->image }}')" width="100px" >
           {{-- <div class="carousel-caption d-none d-md-block">
             <h3>First Slide</h3>
             <p>This is a description for the first slide.</p>
           </div> --}}
-        </div>
-        <!-- Slide Two - Set the background image for this slide in the line below -->
-        <div class="carousel-item" style="background-image: url('/image/{{ $item->image }}' )" >
-          {{-- <div class="carousel-caption d-none d-md-block">
-            <h3>Second Slide</h3>
-            <p>This is a description for the second slide.</p>
-          </div> --}}
-        </div>
 
-        <!-- Slide Three - Set the background image for this slide in the line below -->
-        <div class="carousel-item" style="background-image: url({{asset('images/ex3.jpg')}}">
-          {{-- <div class="carousel-caption d-none d-md-block">
-            <h3>Third Slide</h3>
-            <p>This is a description for the third slide.</p>
-          </div> --}}
-        </div>
-      </div>
-
-      <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-      </a>
-      <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-      </a>
-    </div>
-  </header>
 
   <div class="container my-5">
     <div class="row">
@@ -82,12 +54,19 @@
               <tr>
 
                 <td>{{$row->year_name}}</td>
-                <td>{{$row->funding_name}}</td>
+                <td><a href="{{route('announce.show',$row->id)}}">{{$row->funding_name}}</a></td>
                 <td>{{$row->agency_name}}</td>
-                @if($datenow  >=$row->start && $datenow <= $row->end)
-                <td><i class="fa fa-calendar-check-o" aria-hidden="true" style="color:green"></i> {{$row->start}}-{{$row->end}}</td>
+                @php
+                $date = $row->start;
+                $date1 = $row->end;
+
+                formatDate($date); // call custom helper function
+
+                @endphp
+                @if($datenow >=$row->start && $datenow <= $row->end)
+                <td><i class="fa fa-calendar-check-o" aria-hidden="true" style="color:green"></i> {{formatDate($date)}}-{{formatDate($date1)}}</td>
                 @else
-                <td><i class="fa fa-calendar-minus-o" aria-hidden="true" style="color:red"></i>{{$row->start}}-{{$row->end}}</td>
+                <td><i class="fa fa-calendar-minus-o" aria-hidden="true" style="color:red"></i>{{formatDate($date)}}-{{formatDate($date1)}}</td>
             @endif
             </tr>
 
@@ -103,7 +82,6 @@
     </div>
 </div>
 
-<p>&nbsp;</p>
 <div class="container">
 
 <div class="row my-6">
@@ -134,5 +112,6 @@
     </div>
 </div>
 </div>
+
 
 @endsection

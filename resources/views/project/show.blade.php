@@ -1,13 +1,23 @@
 @extends('layouts.app')
 
 @section('content')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-    <div _ngcontent-irs-c70="" class="content-title content-title-clear ng-star-inserted">
-        <h4 _ngcontent-irs-c70="">วิจัย - รายละเอียดโครงการขอทุน</h4>
+    <div class="container">
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="{{ url('/project') }}">
+                            <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page"> วิจัย - รายละเอียดโครงการขอทุน
+                    </li>
+                </ol>
+            </nav>
+        </div>
     </div>
     <div class="container">
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
@@ -15,112 +25,126 @@
                         รายละเอียดข้อมูลโครงการ
                     </div>
                     <div class="card-body">
-        {{-- {!! Form::open(['action' => ['svp\ProjectController@update', $data->id], 'method' => 'POST']) !!} --}}
-        {{ csrf_field() }}
-        <div class="col-md-12">
-            <table class="table table-bordered">
+                        {{-- {!! Form::open(['action' => ['svp\ProjectController@update', $data->id], 'method' => 'POST']) !!} --}}
+                        {{ csrf_field() }}
+                        <div class="col-md-12">
+                            <table class="table table-bordered">
 
-                <tbody>
-                    <tr>
-                        <td width="30%">ชื่อโครงการ</td>
-                        <td>{{ $data->project_name }}</td>
-                    </tr>
-                    <tr>
-                        <td>ชื่อโครงการภาษาอังกฤษ</td>
-                        <td>{{ $data->name_eng }}</td>
-                    </tr>
-                    @include('svp/project/index')
+                                <tbody>
+                                    <tr>
+                                        <td width="30%">ชื่อโครงการ</td>
+                                        <td>{{ $data->project_name }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>ชื่อโครงการภาษาอังกฤษ</td>
+                                        <td>{{ $data->name_eng }}</td>
+                                    </tr>
+                                    @include('svp/project/index')
 
-                    <tr>
-                        @php
+                                    <tr>
+                                        @php
 
-                        @endphp
-                        <td>งบประมาณ</td>
-                        <td>
-                            @php
-                                $number =  $data->budget;
+                                        @endphp
+                                        <td>งบประมาณ</td>
+                                        <td>
+                                            @php
+                                                $number = $data->budget;
 
-                                echo number_format( $number ); //123,456
-                            @endphp
-                            บาท
-                        </td>
-                    </tr>
-                    @foreach ($projectsub as $key => $projectsubs)
-                        {{-- <tr>
+                                                echo number_format($number); //123,456
+                                            @endphp
+                                            บาท
+                                        </td>
+                                    </tr>
+                                    <?php
+
+                                    $url = "https://api1.yru.ac.th/profile/v1/users?include=journals,articles&paginate_false=true";
+
+                                    $content = file_get_contents($url);
+                                    $data = json_decode($content);
+                                    ?>
+                                    
+                                    <tr>
+                                        <td>หัวหน้าโครงการ</td>
+                                        <td>{{ $data->leader }}</td>
+                                        <td>อัตราส่วน {{ $data->ratio }} %</td>
+
+                                    </tr>
+                                    @foreach ($projectsub as $key => $projectsubs)
+                                        {{-- <tr>
                 <td>{{$projectsubs->position}}</td>
                 <td>{{ $projectsubs->associate  }} </td>
                 <td>อัตราส่วน {{ $data->percent }}%</td>
             </tr> --}}
-                        {{-- @include('svp/associate') --}}
+                                        {{-- @include('svp/associate') --}}
 
-                        <tr>
-                            <td>{{ $projectsubs->position }}</td>
-                            <td>
-                                {{ $projectsubs->associate }}
-                            </td>
-                            <td>
-                                อัตราส่วน {{ $projectsubs->percent }}%
-                            </td>
+                                        <tr>
+                                            <td>{{ $projectsubs->position }}</td>
+                                            <td>
+                                                {{ $projectsubs->associate }}
+                                            </td>
+                                            <td>
+                                                อัตราส่วน {{ $projectsubs->percent }}%
+                                            </td>
 
-                        </tr>
-                    @endforeach
-                    <tr>
-                        <td>ไฟล์ Proposol</td>
-                        <td><a href="{{ $data->file_path }}">{{ $data->name }}</a></td>
-                    </tr>
-                    <tr>
-                        <td width="30%">ผลการพิจารณา</td>
-                        <td>
-                            {{-- status=1 ->อนุมัติ
+                                        </tr>
+                                    @endforeach
+                                    <tr>
+                                        <td>ไฟล์ Proposol</td>
+                                        <td><a href="/storage/app/public/uploads/{{$data->file_path }}">{{ $data->name }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="30%">ผลการพิจารณา</td>
+                                        <td>
+                                            {{-- status=1 ->อนุมัติ
                 status=2 ->ไม่อนุมัติ
                 status=3 ->แก้ไข --}}
-                            <div class="form-group radioeffect">
+                                            <div class="form-group radioeffect">
 
-                                <label for="radio1" class="css-label radGroup1">สถานะ:</label><br>
-                                @if ($data->status == '1')
-                                <span class="badge badge-success">อนุมัติ</span>
-                            @elseif($data->status =='2')
-                                <span class="badge badge-danger">ไม่อนุมัติ</span>
-                            @elseif($data->status =='3')
-                                <span class="badge badge-danger">แก้ไข</span>
-                            @else
-                                <span class="badge badge-warning">รอการตรวจสอบ</span>
-                            @endif
-                            <br>
-                                <label for="radio1" class="css-label radGroup1">ข้อเสนอแนะ:</label><br>
-                                {{ $data->comment }}
+                                                <label for="radio1" class="css-label radGroup1">สถานะ:</label><br>
+                                                @if ($data->status == '1')
+                                                    <span class="badge badge-success">อนุมัติ</span>
+                                                @elseif($data->status =='2')
+                                                    <span class="badge badge-danger">ไม่อนุมัติ</span>
+                                                @elseif($data->status =='3')
+                                                    <span class="badge badge-danger">แก้ไข</span>
+                                                @else
+                                                    <span class="badge badge-warning">รอการตรวจสอบ</span>
+                                                @endif
+                                                <br>
+                                                <label for="radio1" class="css-label radGroup1">ข้อเสนอแนะ:</label><br>
+                                                {{ $data->comment }}
 
-                            </div>
+                                            </div>
 
-                        </td>
-                    </tr>
-
-
+                                        </td>
+                                    </tr>
 
 
-                </tbody>
 
 
-            </table>
+                                </tbody>
 
 
-        </div>
+                            </table>
 
-        <div class="text-center">
-            {{-- <input type="submit" name="submit" value="บันทึก" class="btn btn-success"> --}}
-            <a href="{{route('project.edit',$data->id)}}" type="submit" name="submit" class="btn btn-sm btn-danger"><span
-                class='fa fa-edit'></span>แก้ไข</a>
+
+                        </div>
+
+                        <div class="text-center">
+                            {{-- <input type="submit" name="submit" value="บันทึก" class="btn btn-success"> --}}
+                            <a href="{{ route('project.edit', $data->id) }}" type="submit" name="submit"
+                                class="btn btn-sm btn-danger"><span class='fa fa-edit'></span>แก้ไข</a>
+                        </div>
+                    </div>
+                </div>
+
+                </form>
+
+            </div>
         </div>
     </div>
-</div>
-
-</form>
-
-</div>
-</div>
-</div>
-</div>
-</div>
+    </div>
+    </div>
 
     {{-- @include('svp/project/create') --}}
 
@@ -140,7 +164,6 @@
                 </tr>
             </thead>
             <tbody>
-
                 @foreach ($comment as $row)
                     <tr>
                         <td>{{ $row->created_at }}</td>

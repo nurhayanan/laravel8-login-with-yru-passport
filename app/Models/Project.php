@@ -10,6 +10,7 @@ class Project extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'id',
         'user_id',
         'project_name',
         'name_eng',
@@ -30,6 +31,7 @@ class Project extends Model
         'status',
         'cread',
         'comment',
+        'id_project',
     ];
     protected $guarded = [];
     protected $table = 'projects';
@@ -37,8 +39,10 @@ class Project extends Model
     public function storeData($request)
     {
         $project = project::create([
+            'id' => request('id'),
             'user_id' => request('user_id'),
             'project_name' => request('project_name'),
+            'id_project' => request('id_project'),
             'name_eng' => request('name_eng'),
             'funding_id' => request('funding_id'),
             'agency_id' => request('agency_id'),
@@ -47,7 +51,7 @@ class Project extends Model
             'issuess_id' => request('issuess_id'),
             'strategic_id' => request('strategic_id'),
             'budget' => request('budget'),
-            'learder' => request('learder'),
+            'leader' => request('leader'),
             'ratio' => request('ratio'),
             'name' => request('name'),
             'file_path' => request('file_path'),
@@ -63,6 +67,7 @@ class Project extends Model
 
             $path = $request->file('file_path')->storeAs('uploads', $imageName, 'public');
         }
+
 
         $project->name = $imageName;
         $project->file_path = '/storage/' . $path;

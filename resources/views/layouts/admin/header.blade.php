@@ -17,34 +17,28 @@
       <!-- Authentication Links -->
       
       @guest
-                                @php
-                                    $http_build_query = http_build_query([
-                                        'client_id' => env('OAUTH_CLIENT_ID'),
-                                        'redirect_uri' => env('OAUTH_CLIENT_REDIRECT_URI'),
-                                        'response_type' => 'code',
-                                        'scope' => '*',
-                                    ]);
-                                    $URI = 'https://passport.yru.ac.th/oauth/authorize?' . $http_build_query;
-                                @endphp
-                                <div class="flex justify-center pt-8 sm:justify-start sm:pt-0 padding">
-                                    <a href="{{ $URI }}" class="button">
-                                        <span>เข้าสู่ระบบ</span>
-                                    </a>
-                                </div>
-                            @else
+          <li class="nav-item">
+              <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+          </li>
+          @if (Route::has('register'))
+              <li class="nav-item">
+                  <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+              </li>
+          @endif
+      @else
           <li class="nav-item dropdown">
               <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                   {{ Auth::user()->name }}
               </a>
 
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="{{ route('auth.logout') }}"
+                  <a class="dropdown-item" href="{{ route('logout') }}"
                      onclick="event.preventDefault();
                                    document.getElementById('logout-form').submit();">
                       {{ __('Logout') }}
                   </a>
 
-                  <form id="logout-form" action="{{ route('auth.logout') }}" method="POST" class="d-none">
+                  <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                       @csrf
                   </form>
               </div>

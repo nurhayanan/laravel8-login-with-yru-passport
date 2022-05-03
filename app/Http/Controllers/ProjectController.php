@@ -17,6 +17,8 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+  
+
     public function index()
     {
         // $data = Project::latest()->paginate(5);
@@ -31,6 +33,7 @@ class ProjectController extends Controller
         return view('project.index',compact('data', 'year'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
+
 
     //show หน้า dashboard สวพ.
     public function index1()
@@ -69,23 +72,12 @@ class ProjectController extends Controller
         return view('svp.project.create');
     }
 
-    public function autocomplete(Request $request)
+    public function autocompleteSearch(Request $request)
     {
-        $input = $request->all();
 
-        $data = User::select("name")
-                ->where("name","LIKE","%{$input['query']}%")
-                ->get();
-
-      $users = [];
-
-      if(count($data) > 0){
-
-            foreach($data as $user){
-                $users[] = $user->name;
-            }
-        }
-        return response()->json($users);
+          $query = $request->get('query');
+          $filterResult = User::where('name', 'LIKE', '%'. $query. '%')->get();
+          return response()->json($filterResult);
     }
 
     /**
@@ -97,9 +89,10 @@ class ProjectController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'id' =>'',
             'user_id'=> 'required',
             'project_name'=> 'required',
-            'name_eng',
+            'name_eng'=>'required',
             'funding_id'=> 'required',
             'agency_id'=> 'required',
             'researchtype_id'=> 'required',
@@ -119,13 +112,38 @@ class ProjectController extends Controller
             'status'=> '',
             'cread'=> '',
             'comment'=> '',
+            'id_project'=> '',
+        ],[
+
+            'project_name.required'=> 'กรุณากรอกชื่อโครงการ',
+            'name_eng.required'=> 'กรุณากรอกชื่อโครงการภาษาอังกฤษ',
+            'funding_id.required'=> 'กรุณาเลือกแหล่งทุน',
+            'agency_id.required'=> 'กรุณาเลือกกหน่วยงาน',
+            'researchtype_id.required'=> 'กรุณาเลือกกประเภทการวิจัย',
+            'researchfield_id.required'=> 'กรุณาเลือกสาขาการวิจัย',
+            'issuess_id.required'=> 'กรุณาเลือกประเด็นการวิจัย',
+            'strategic_id.required'=> 'กรุณาเลือกยุทธศาสตร์',
+            'budget.required'=> 'กรุณากรอกงบประมาณ',
+            'leader.required'=> 'กรุณากรอกหัวหนาโครงการ',
+            'ratio.required'=> 'กรุณากรอกอัตราส่วน',
+             // ->insert table projectsubs
+             'row.*.associate.required' => 'required',
+             'row.*.percent.required' => 'กรุณากรอกอัตราส่วน',
+             'row.*.position.required' => 'กรุณาระบุตำแหน่ง',
+             //->
+            'name'=> '',
+            'file_path'=> '',
+            'status'=> '',
+            'cread'=> '',
+            'comment'=> '',
+            'id_project'=> '',
         ]);
 
                 $data = new Project;
                 $data= $data->storeData($request);
 
-        return redirect()->route('project.index')
-                        ->with('success','Post created successfully.');
+
+                return view('welcome');
     }
 
     //เพิ่มข้อมูลในส่วนของการอนุมัติลงใน comments
@@ -137,6 +155,7 @@ class ProjectController extends Controller
                     'comment' => '',
                     'status' => '',
                     'cread' => '',
+                    'id_project' => '',
 
                 ]);
 
@@ -145,6 +164,7 @@ class ProjectController extends Controller
                 $data->comment = $request->input('comment');
                 $data->status = $request->input('status');
                 $data->cread = $request->input('cread');
+                $data->id_project = $request->input('id_project');
                 $data->save();
 
                 $data = new Project;
@@ -282,6 +302,7 @@ class ProjectController extends Controller
             'cread' =>'required',
             'status' => 'required',
             'comment'=>'',
+            'id_project'=>'',
 
         ]);
 
@@ -289,13 +310,15 @@ class ProjectController extends Controller
         $data->cread = $request->cread;
         $data->status = $request->status;
         $data->comment = $request->comment;
+        $data->id_project = $request->id_project;
         $data->save();
 
         $request->validate([
-            'project_id' => '',
+            'project_id' => 'required',
             'status' => '',
             'comment' => '',
             'cread' => '',
+            'id-project' => '',
         ]);
 
         $data = new Comment;
@@ -303,6 +326,7 @@ class ProjectController extends Controller
         $data->status = $request->input('status');
         $data->comment = $request->input('comment');
         $data->cread = $request->input('cread');
+        $data->id_project = $request->input('id_project');
         $data->save();
 
       return redirect('svp/dashboard');

@@ -1,9 +1,21 @@
 @extends('layouts.app')
 
 @section('content')
-<div _ngcontent-irs-c70="" class="content-title content-title-clear ng-star-inserted">
-                <h4 _ngcontent-irs-c70="">วิจัย - รายละเอียดสัญญาจ้าง</h4>
-            </div>
+<div class="container">
+    <div class="col-md-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="{{ url('/contract') }}">
+                        <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page"> วิจัย - จัดทำสัญญารับทุนวิจัย
+                </li>
+            </ol>
+        </nav>
+    </div>
+</div>
 <div class="container">
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <br><br>
@@ -99,7 +111,6 @@
                                         <td>ระยะเวลา</td>
                                         <td> <input class="form-control " type="text" id="period" name="period"> </td>
                                     </tr>
-
                                     <tr>
                                         <td>ผู้ค้ำประกัน</td>
                                         <td>

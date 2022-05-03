@@ -35,13 +35,13 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="/svp/announce" class="nav-link">
+                <a  class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>ประกาศรับทุน</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/year" class="nav-link">
+                <a  class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>โครงการ</p>
                 </a>
@@ -53,13 +53,13 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/agency" class="nav-link">
+                <a class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>รายงานความก้าวหน้า</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/researchtype" class="nav-link">
+                <a  class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>ติดตามงานวิจัย</p>
                 </a>

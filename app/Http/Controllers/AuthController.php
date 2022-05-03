@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
+
+
     /**
      * @throws GuzzleException
      */

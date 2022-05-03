@@ -16,7 +16,8 @@
                                 @endforeach
                             </ul>
                         @endif
-                        <form action="{{ route('svp.update',$data->id) }}" method="POST">                        {{ csrf_field() }}
+                        <form action="{{ route('svp.update',$data->id) }}" method="POST">
+                                {{ csrf_field() }}
                         <div class="col-md-12">
                             <table class="table table-bordered">
 
@@ -42,7 +43,6 @@
                                         <td>อัตราส่วน {{ $data->percent }}%</td>
                                     </tr> --}}
                                     {{-- @include('svp/associate') --}}
-
                                         <tr>
                                             <td>{{$projectsubs->position}}</td>
                                             <td>
@@ -87,6 +87,12 @@
                                                       <option value="C">C</option>
                                                       <option value="D">D</option>
                                                     </select>
+                                                  </div>
+                                        </div>
+                                        <div class="div1 allshow" style="display: none;">
+                                           รหัสโครงการ:
+                                                <div class="col-md-8">
+                                                    <input class="form-control {{ $errors->has('id_project') ? 'has-error' : '' }}"  name="id_project">
                                                   </div>
                                         </div>
                                         <div class="div2 allshow" style="display: none;">

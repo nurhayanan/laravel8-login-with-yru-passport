@@ -2,12 +2,23 @@
 
 @section('content')
 
-            <div _ngcontent-irs-c70="" class="content-title content-title-clear ng-star-inserted">
-                <h4 _ngcontent-irs-c70="">วิจัย - จัดทำสัญญา</h4>
-            </div>
+<div class="container">
+    <div class="col-md-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="{{ url('/') }}">
+                        <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page"> วิจัย - สัญญารับทุนวิจัย
+                </li>
+            </ol>
+        </nav>
+    </div>
+</div>
             <div class="container">
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    {{-- @php
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             {{-- @php
                     $announ = DB::table('announces')
                     ->join('years', 'announces.year_id', '=', 'years.id')
                     ->join('fundings', 'announces.funding_id', '=', 'fundings.id')
@@ -36,17 +47,21 @@
                                 <th scope="col">รหัสโครงการ</th>
                                 <th scope="col">ชื่อโครงการ(ที่อนุมัติแล้ว)</th>
                                 <th scope="col">งบที่อนุมัติ</th>
-                                <th scope="col">สถานะ</th>
+                                <th scope="col">หมายเหตุ</th>
                             </tr>
                         </thead>
                         <tbody>
 
                             <tr>
                                 @foreach ($data as $row)
-                                <th scope="row">{{$row->id}}</th>
-                                <td><a href="{{route('contract.create',$row->id)}}">{{$row->project_name}}</a></td>
+                                <th scope="row">{{$row->id_project}}</th>
+                                <td><a href="{{route('contract.show',$row->id)}}">{{$row->project_name}}</a></td>
                                 <td>{{$row->budget}}</a></td>
-                                
+                                {{-- <td><a class="btn btn-sm btn-info"
+                                    href="{{ route('contract.show2', $row->id) }}">
+                                    ดูรายละเอียด
+                                </a></td> --}}
+                                <td></td>
                             </tr>
                             @endforeach
                         </tbody>

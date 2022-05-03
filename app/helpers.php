@@ -12,6 +12,4 @@ class helpers {
 
         return $arr[$short] ?? null;
     }
-
-    
 }

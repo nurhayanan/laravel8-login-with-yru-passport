@@ -7,7 +7,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Contract;
-use App\Models\File;
+use App\Models\Project;
+use PDF;
 
 class ContractController extends Controller
 {
@@ -61,8 +62,8 @@ class ContractController extends Controller
         $request->validate([
             'user_id'=> 'required',
             'project_id'=> 'required',
-            'date'=> 'required',
-            'period'=> 'required',
+            'date'=> '',
+            'period'=> '',
             'guarantor'=> 'required',
             'filenames' => 'required',
              'filenames.*' => 'required',
@@ -76,11 +77,13 @@ class ContractController extends Controller
             foreach($request->file('filenames') as $file)
             {
                 $path = $file->store('public/files');
+
                 $name = time().rand(1,100).'.'.$file->extension();
-                $file->move(public_path('files'), $name);
+                $file->storeAs('files', $name);
                 $files[] = $name;
             }
          }
+
 
          $file= new  Contract();
          $file->user_id = $request->input('user_id');
@@ -93,9 +96,8 @@ class ContractController extends Controller
          $file->file_path = $path;
          $file->save();
 
-
-        return redirect()->route('contract.index')
-                        ->with('success','Post created successfully.');
+         return redirect()->route('contract.index')
+         ->with('success','Post created successfully.');
 
 
     }
@@ -108,8 +110,49 @@ class ContractController extends Controller
      */
     public function show($id)
     {
-        //
+        $data = Project::find($id);
+        $project = DB::table('projects')
+        ->join('fundings', 'projects.funding_id', '=', 'fundings.id')
+          ->select('projects.*', 'fundings.funding_name')->get();
+        $users = DB::table('users')->where('id', Auth::user()->id) ->get();
+        return view('contract.show',compact('data', 'users', 'project'));
     }
+
+    public function show2($id)
+    {
+        $data = Project::find($id);
+        $project = DB::table('projects')
+        ->join('fundings', 'projects.funding_id', '=', 'fundings.id')
+          ->select('projects.*', 'fundings.funding_name')->get();
+        $users = DB::table('users')->where('id', Auth::user()->id) ->get();
+        $contract = DB::table('contracts')->where('project_id','=',$id)->get();
+        return view('contract.show2',compact('data', 'users', 'project', 'contract'));
+    }
+
+    public function generatePDF()
+    {
+        $data = [
+            'title' => 'Welcome to ItSolutionStuff.com',
+            'date' => date('m/d/Y'),
+
+        ];
+
+        $pdf = PDF::loadView('22375', $data);
+
+        return $pdf->download('สัญญาค้ำประกันรับทุนอุดหนุนงานวิจัยหรืองานสร้างสรรค์.docx');
+    }
+    public function generatePDF1()
+    {
+        $data = [
+            'title' => 'Welcome to ItSolutionStuff.com',
+            'date' => date('m/d/Y')
+        ];
+
+        $pdf = PDF::loadView('22376', $data);
+
+        return $pdf->download('สัญญารับทุนอุดหนุนงานวิจัยหรืองานสร้างสรรค์.docx');
+    }
+
 
     public function show1($id)
     {
@@ -120,7 +163,8 @@ class ContractController extends Controller
         ->join('contracts', 'projects.id', '=', 'contracts.project_id')
         ->select('projects.*', 'users.name', 'users.job_position', 'users.department',
         'users.address_present', 'users.mobile' , 'fundings.funding_name' ,
-        'contracts.date', 'contracts.period', 'contracts.guarantor', 'contracts.filenames')->get();
+         'contracts.guarantor', 'contracts.file_path', 'contracts.filenames')->get();
+
         // แสดงผลในตาราง project ตามไอดี project ที่เลือก
         $data = Contract::find($id);
         // ให้แสดงผลที่หน้า svp.project.show
@@ -144,13 +188,17 @@ class ContractController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function contract_update(Request $request, $id)
     {
         $request->validate([
+            'date' => '',
+            'period' => '',
             'status' => '',
         ]);
         $data = Contract::find($id);
         $data->status = $request->input('status');
+        $data->date = $request->input('date');
+        $data->period = $request->input('period');
         $data->save();
 
       return redirect('svp/contract/index');

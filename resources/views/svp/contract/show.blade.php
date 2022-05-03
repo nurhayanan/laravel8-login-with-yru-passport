@@ -3,14 +3,16 @@
 @section('content')
     <div class="container">
 
-                        <form action="{{ route('contract.update',$data->id) }}" method="POST">                        {{ csrf_field() }}
-                            @foreach ( $project as $row)
-
-                            @endforeach
-
+                        <form action="{{ route('svp.update1',$data->id) }}" method="POST">                       
+                            {{ csrf_field() }}
+                           
 
                               <div class="row justify-content-center">
                                   <div class="col-md-12">
+                                    @foreach ( $project as $row)
+
+                                    @endforeach
+        
                                       <div class="card">
                                           <div class="card-header">{{$row->project_name}}</div>
                                           <div class="card-body">
@@ -27,7 +29,7 @@
                                               <div class="card-header">ข้อมูลนักวิจัย</div>
                                           <div class="card-body">
 
-                                            <form action="{{ route('contract.update',$data->id) }}" method="POST">
+                                            <form action="{{ route('contract.update',$data->id) }}" method="PUT">
 
                                               {{ csrf_field() }}
                                               <div class="col-md-12">
@@ -84,23 +86,23 @@
 
                                                           <tr>
                                                               <td>วันที่ทำสัญญา</td>
-                                                              <td> {{ $row->date }}</td>
+                                                              <td> <input type="date" class="form-control" id="date" name="date"></td>
                                                           </tr>
 
                                                           <tr>
                                                               <td>ระยะเวลา</td>
-                                                              <td>  {{ $row->period }} </td>
+                                                              <td> <input type="text" class="form-control" id="period" name="period"></td>
                                                           </tr>
 
                                                           <tr>
                                                               <td>ผู้ค้ำประกัน</td>
                                                               <td>
-                                                                {{ $row->guarantor }}
+                                                                {{ $data->guarantor }}
                                                               </td>
                                                           </tr>
                                                           <tr>
                                                               <td>แบบฟอร์มดาวน์โหลด</td>
-                                                              <td><a href="{{ $row->file_path }}">{{ $row->filenames }}</a></td>
+                                                              <td><a href="{{ $data->file_path }}">{{ $data->filenames }}</a></td>
 
                                                           </tr>
                                                           <tr>

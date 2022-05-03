@@ -1,11 +1,20 @@
 @extends('layouts.app')
 @section('content')
-    <script type='text/javascript' src='https://code.jquery.com/jquery-1.12.4.min.js'></script>
-    <div _ngcontent-irs-c70="" class="content-title content-title-clear ng-star-inserted">
-        <h4 _ngcontent-irs-c70="">วิจัย - เสนอโครงการขอทุน</h4>
+<div class="container">
+    <div class="col-md-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="{{ url('/project') }}">
+                        <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page"> วิจัย - เสนอโครงการขอทุน
+                </li>
+            </ol>
+        </nav>
     </div>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </div>
 
     <div class="container">
         <div class="row justify-content-center">
@@ -15,74 +24,73 @@
                         กรอกข้อมูลโครงการ
                     </div>
                     <div class="card-body">
-                        @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <strong>Whoops!</strong> There were some problems with your input.<br><br>
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
+                        @if(Session::has('success'))
+                        <div class="alert alert-success">
+                            {{Session::get('success')}}
+                        </div>
+                    @endif
 
-                        <form name="save-multiple-files" action="{{ route('project.store') }}" method="POST"
-                            enctype="multipart/form-data">
+                        <form  action="{{ route('project.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <table class="table table-bordered">
                                 <tbody>
                                     <tr>
                                         <td width="30%">ชื่อโครงการ<span style="color: red;">*</span></td>
-                                        <td> <textarea class="form-control" style="height:50px" name="project_name"
-                                                placeholder="Enter Description"></textarea>
+                                        <td> <textarea class="form-control {{ $errors->has('project_name') ? 'has-error' : '' }}"
+                                            style="height:50px" name="project_name" placeholder="กรุณากรอกข้อมูล"></textarea>
+                                            <span class="text-danger">{{ $errors->first('project_name') }}</span>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td width="30%">ชื่อโครงการภาษาอังกฤษ<span style="color: red;">*</span></td>
-                                        <td> <textarea class="form-control" style="height:50px" name="name_eng"
-                                                placeholder="Enter Description"></textarea>
+                                        <td> <textarea class="form-control {{ $errors->has('name_eng') ? 'has-error' : '' }}"
+                                            style="height:50px" name="name_eng" placeholder="กรุณากรอกข้อมูล"></textarea>
+                                            <span class="text-danger">{{ $errors->first('name_eng') }}</span>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td width="30%">แหล่งทุน<span style="color: red;">*</span></td>
                                         <td>
-                                            <select class='form-control ' id='funding_id' name='funding_id'>
+                                            <select class='form-control {{ $errors->has('funding_id') ? 'has-error' : '' }}' id='funding_id' name='funding_id'>
                                                 <option>Select Item</option>
                                                 @foreach ($funding as $item)
                                                     <option value="{{ $item->id }}" {{ $item->id ? 'selected' : '' }}>
                                                         {{ $item->funding_name }} </option>
                                                 @endforeach
                                             </select>
+                                            <span class="text-danger">{{ $errors->first('funding_id') }}</span>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td width="30%">หน่วยงาน<span style="color: red;">*</span></td>
                                         <td>
-                                            <select class='form-control ' id='agency_id' name='agency_id'>
+                                            <select class='form-control {{ $errors->has('agency_id') ? 'has-error' : '' }}' id='agency_id' name='agency_id'>
                                                 <option>Select Item</option>
                                                 @foreach ($agency as $item)
                                                     <option value="{{ $item->id }}" {{ $item->id ? 'selected' : '' }}>
                                                         {{ $item->agency_name }} </option>
                                                 @endforeach
                                             </select>
+                                            <span class="text-danger">{{ $errors->first('agency_id') }}</span>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td width="30%">ประเภทการวิจัย<span style="color: red;">*</span></td>
                                         <td>
-                                            <div class="form-group radioeffect">
+                                            <div class="form-group radioeffect {{ $errors->has('researchtype_id') ? 'has-error' : '' }}">
                                                 @foreach ($researchtype as $item)
                                                     <input type="radio" id="researchtype_id" name="researchtype_id"
                                                         value="{{ $item->id }}">
                                                     <label for="male">{{ $item->research_type }}</label> <br>
                                                 @endforeach
                                             </div>
+                                            <span class="text-danger">{{ $errors->first('researchtype_id') }}</span>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td width="30%">สาขาการวิจัย<span style="color: red;">*</span></td>
                                         <td>
-                                            <select class='form-control ' id='researchfield_id' name='researchfield_id'>
+                                            <select id="researchfield_id" name="researchfield_id" class="form-control {{ $errors->has('researchfield_id') ? 'has-error' : '' }}">
                                                 <option>Select Item</option>
                                                 @foreach ($researchfield as $item)
                                                     <option value="{{ $item->id }}"
@@ -90,40 +98,58 @@
                                                         {{ $item->research_field }} </option>
                                                 @endforeach
                                             </select>
+                                            <span class="text-danger">{{ $errors->first('researchfield_id') }}</span>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td width="30%" for="strategic">ยุทธศาสตร์<span style="color: red;">*</span></td>
                                         <td>
-                                            <select id="strategic" name="strategic_id" class="form-control">
+                                            <select id="strategic" name="strategic_id" class="form-control {{ $errors->has('strategic_id') ? 'has-error' : '' }}">
                                                 <option value="" selected disabled>โปรดเลือกยุทธศาสตร์</option>
                                                 @foreach ($strategic as $key => $country)
                                                     <option value="{{ $key }}"> {{ $country }}</option>
                                                 @endforeach
                                             </select>
+                                            <span class="text-danger">{{ $errors->first('strategic_id') }}</span>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td width="30%" for="issuess">ประเด็นการวิจัย<span style="color: red;">*</span></td>
                                         <td>
-                                            <select name="issuess_id" id="issuess" class="form-control"></select>
+                                            <select name="issuess_id" id="issuess" class="form-control {{ $errors->has('issuess_id') ? 'has-error' : '' }}"></select>
+                                        <span class="text-danger">{{ $errors->first('issuess_id') }}</span>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td width="30%">งบประมาณ<span style="color: red;">*</span></td>
-                                        <td> <input class="form-control" style="height:50px" name="budget"
-                                                placeholder="Enter Description">
+                                        <td> <input type="number" class="form-control {{ $errors->has('budget') ? 'has-error' : '' }}" style="height:50px" name="budget"
+                                                placeholder="กรุณากรอกข้อมูล">
+                                                <span class="text-danger">{{ $errors->first('budget') }}</span>
                                         </td>
                                     </tr>
+                                    <?php
+
+	                                        $url = "https://api1.yru.ac.th/profile/v1/users?include=journals,articles&paginate_false=true";
+
+	                                        $content = file_get_contents($url);
+	                                        $data = json_decode($content);
+	                                    ?>
                                     <tr>
                                         <td width="30%">หัวหน้าโครงการ<span style="color: red;">*</span></td>
-                                        <td> {!! Form::text('user_id', Auth::user()->name, ['class' => 'form-control']) !!}
+                                        <td>
+                                            <select class="form-select" id="single-select-clear-field" name="leader" data-placeholder="Choose one thing">
+                                                <option></option>
+                                                <?php $i=0; foreach ($data->data as $data) { $i++;  ?>
+                                                    <option value="<?php echo $data->id; ?>"><?php echo $data->special->name_1; ?></option>
+                                                <?php } ?>
+                                            </select>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td width="30%">อัตราส่วน<span style="color: red;">*</span></td>
-                                        <td> <input class="form-control" style="height:50px" name="ratio"
-                                                placeholder="Enter Description">
+                                        <td> <input type="number" class="form-control {{ $errors->has('ratio') ? 'has-error' : '' }}" style="height:50px" name="ratio"
+                                                placeholder="กรุณากรอกข้อมูล">
+                                                <span class="text-danger">{{ $errors->first('ratio') }}</span>
                                         </td>
                                     </tr>
 
@@ -203,7 +229,7 @@
                                             </tfoot>
 
                                         </table>
-                                    </div>
+
                                     <tr>
                                         <td>ไฟล์ proposal<span style="color: red;">*</span></td>
                                         <td> {!! Form::file('file_path', null, ['class' => 'form-control']) !!}</td>
@@ -287,7 +313,6 @@
     </script>
 
     <script type="text/javascript">
-
         $('tbody .main_data').delegate('.associate,.percent,.position,.status', 'keyup', function() {
             var tr = $(this).parent().parent();
             var associate = tr.find('.associate').val();
@@ -361,15 +386,19 @@
         //             $('#total').html('');
         //         }
         // });
-        var path = "{{ route('autocomplete') }}";
-    $('input.typeahead').typeahead({
-        source: function(query, process) {
-            return $.get(path, {
-                query: query
-            }, function(data) {
-                return process(data);
-            });
-        }
-    });
+
     </script>
+    <!-- Scripts -->
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.0/dist/jquery.slim.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+	<script type="text/javascript">
+		$( '#single-select-clear-field' ).select2( {
+			theme: "bootstrap-5",
+			width: $( this ).data( 'width' ) ? $( this ).data( 'width' ) : $( this ).hasClass( 'w-100' ) ? '100%' : 'style',
+			placeholder: $( this ).data( 'placeholder' ),
+			allowClear: true
+		} );
+	</script>
 @endsection

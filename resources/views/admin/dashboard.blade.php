@@ -18,7 +18,7 @@
                   {{$researchtypes}}
                   <small>ประเภท</small>
                 </span>
-                
+
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -90,7 +90,7 @@
             <div class="card">
               <div class="card-header border-transparent">
                 <h3 class="card-title">ข้อเสนอโครงการ</h3>
-  
+
                 <div class="card-tools">
                   <button type="button" class="btn btn-tool" data-card-widget="collapse">
                     <i class="fas fa-minus"></i>
@@ -126,29 +126,29 @@
                         <td>{{$i}}</td>
                         <td>{{$row->project_name}}</td>
                         <td>00-0000</td>
-                        
-                          @if($row->status =='1')         
+
+                          @if($row->status =='1')
                           <td><span class="badge badge-warning">รอการตรวจสอบ</span></td>
-                          @elseif($row->status =='2')         
+                          @elseif($row->status =='2')
                           <td><span class="badge badge-success">อนุมัติ</span></td>
-                          @elseif($row->status =='3')         
+                          @elseif($row->status =='3')
                           <td><span class="badge badge-danger">แก้ไข</span></td>
                           @else
                           <td><span class="badge badge-secondary">ไม่พบข้อมูล</span></td>
                           @endif
-                        
+
                         <td>{{$row->created_at}}</td>
                         <td>
                           <a class="btn btn-sm btn-info" href="{{route('project.show',$row->id)}}">ดูรายละเอียด</a>
                         </td>
-                        
+
                       </tr>
                       @php
                       $i++;
                       @endphp
                     @endforeach
                     </tbody>
-                   
+
                   </table>
                 </div>
                 <!-- /.table-responsive -->

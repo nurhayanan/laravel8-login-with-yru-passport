@@ -77,7 +77,13 @@ class AnnounceController extends Controller
      */
     public function show($id)
     {
-        //
+        $data = DB::table('announces')
+        ->join('years', 'announces.year_id', '=', 'years.id')
+        ->join('fundings', 'announces.funding_id', '=', 'fundings.id')
+        ->join('agencies', 'announces.agency_id', '=', 'agencies.id')
+        ->select('announces.*', 'years.year_name','fundings.funding_name','agencies.agency_name')
+        ->get();
+        return view('announce.show',compact('data'));
     }
 
     /**

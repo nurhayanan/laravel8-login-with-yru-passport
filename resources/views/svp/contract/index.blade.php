@@ -113,11 +113,14 @@
                   </thead>
                   <tbody>
                     @php
-                    $i = 1;
+                      $data = DB::table('contracts')
+        ->join('projects', 'contracts.project_id', '=', 'projects.id')
+          ->select('contracts.*', 'projects.id_project','projects.project_name', 'projects.budget')->get();
+
                     @endphp
                     @foreach ($data as $row)
                     <tr>
-                      <td>{{$i}}</td>
+                      <td>{{$row->id_project}}</td>
                       <td>{{$row->project_name}}</td>
                       <td>{{$row->budget}}</td>
 
@@ -136,9 +139,7 @@
                       </td>
 
                     </tr>
-                    @php
-                    $i++;
-                    @endphp
+              
                       @endforeach
                   </tbody>
 

@@ -122,7 +122,7 @@
                     <tr>
                       <td>{{$i}}</td>
                       <td>{{$row->project_name}}</td>
-                      <td>00-0000</td>
+                      <td>{{$row->id_project}}</td>
 
                         @if($row->status =='1')
                         <td><span class="badge badge-success">อนุมัติ</span></td>

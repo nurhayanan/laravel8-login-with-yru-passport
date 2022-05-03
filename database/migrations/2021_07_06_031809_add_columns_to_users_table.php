@@ -18,6 +18,7 @@ class AddColumnsToUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('username');
+            $table->boolean('is_admin')->nullable();
             $table->string('prefix')->nullable(); //  คำนำหน้า ตามบัตรประชาชน
             $table->string('prefix_edu')->nullable(); // คำนำหน้า ทางสายการศึกษา
             $table->string('fname')->nullable(); // ชื่อ

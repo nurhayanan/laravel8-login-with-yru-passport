@@ -10,7 +10,7 @@
 
     <!-- Sidebar -->
     <div class="sidebar">
-    
+
 	@section('sidebar')
       <!-- Sidebar Menu -->
       <nav class="mt-2">
@@ -27,43 +27,43 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="/year" class="nav-link">
+                <a href="/admin/year" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>ปีงบประมาณ</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/funding" class="nav-link">
+                <a href="/admin/funding" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>แหล่งทุน</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/agency" class="nav-link">
+                <a href="/admin/agency" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>หน่วยงาน</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/researchtype" class="nav-link">
+                <a href="/admin/researchtype" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>ประเภทการวิจัย</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/strategic" class="nav-link">
+                <a href="/admin/strategic" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>ยุทธศาสตร์</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/issuess" class="nav-link">
+                <a href="/admin/issuess" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>ประเด็นการวิจัย</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/researchfield" class="nav-link">
+                <a href="/admin/researchfield" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>สาขาการวิจัย</p>
                 </a>

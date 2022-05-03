@@ -12,11 +12,17 @@ class YearController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function index()
     {
         $data = Year::all();
 
-        return view('year.index',compact('data'))
+        return view('admin.year.index',compact('data'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
@@ -39,6 +45,7 @@ class YearController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'id' => '',
             'year_name' => 'required',
         ]);
 
